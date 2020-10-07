@@ -19,5 +19,6 @@ from api import views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('',views.VideoList.as_view()),
+    path('new/',views.fetch_new_posts),
+    path('api/',views.VideoList.as_view()),
 ]

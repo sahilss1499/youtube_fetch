@@ -18,32 +18,29 @@ def getnewposts():
         try:
             # we can connect to youtube sevice via build function
             # naming this service as youtube
-            youtube = build("youtube", "v3", developerKey=apiKey)
+            youtube = build("youtube", "v3", developerKey=apikey)
             # calling an instance method and make a request
-            req = youtube.search().list(part="snippet", q="cricket", order="date",
+            req = youtube.search().list(q="cricket",part="snippet", order="date",
                                         maxResults=50, publishedAfter=(req_time.replace(microsecond=0).isoformat()+'Z') )
             response = req.execute()
+            # print ("response")
             flag=True
+            for obj in response['items']:
+                title = obj['snippet']['title']
+                description = obj['snippet']['description']
+                publishingDateTime = obj['snippet']['publishedAt']
+                thumbnailsUrls = obj['snippet']['thumbnails']['default']['url']
+                channelTitle = obj['snippet']['channelTitle']
+
+                Videos.objects.create(title=title, description=description,
+                        publishingDateTime=publishingDateTime, thumbnailsUrls=thumbnailsUrls,
+                        channelTitle=channelTitle)
 
         # quotaExceeded has status code 403 so we need not break on it
         except HttpError as er:
-            err_code = e.resp.status
+            err_code = er.resp.status
             if not(err_code == 400 or err_code == 403):
                 break
 
         if flag:
             break
-
-# if flag is set then we store tge response in our model
-
-    if flag:
-        for obj in response['items']:
-            title = obj['snippet']['title']
-            description = obj['snippet']['description']
-            publishingDateTime = obj['snippet']['publishedAt']
-            thumbnailsUrls = obj['snippet']['thumbnails']['default']['url']
-            channelTitle = obj['snippet']['channelTitle']
-
-            Videos.objects.create(title=title, description=description
-                    publishingDateTime=publishingDateTime, thumbnailsUrls=thumbnailsUrls
-                    channelTitle=channelTitle)
