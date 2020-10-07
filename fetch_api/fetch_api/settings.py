@@ -37,7 +37,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    
+
     'api',
     'rest_framework',
     'django_crontab',
@@ -118,6 +118,7 @@ USE_L10N = True
 
 USE_TZ = True
 
+API_KEYS = ['AIzaSyCeit9bb4xK8GkAq4LzdJpc7bc_u7czWJU', 'AIzaSyCyC77_pLTCn7ajUH9Tg3XVab2xWrm0rEY',]
 
 REST_FRAMEWORK = {
     'DEFAULT_FILTER_BACKENDS': ['django_filters.rest_framework.DjangoFilterBackend'],
